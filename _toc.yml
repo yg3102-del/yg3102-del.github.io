@@ -2,4 +2,3 @@ format: jb-book
 root: index
 chapters:
   - file: lecture_16_example
-  
