@@ -1,4 +1,6 @@
 format: jb-book
-root: index
+root: intro
 chapters:
-  - file: lecture_16_example
+  - file: 01_pandas_step
+  - file: 02_stdlib_step
+  - file: 03_visualization
