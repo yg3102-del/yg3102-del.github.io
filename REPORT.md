@@ -1,5 +1,3 @@
-# 提交报告（可直接交）
-
 **数据集**：`School_Discharge_Reporting_(Local_Law_42)`（已清洗并存为 `data/dataset.csv`）  
 **使用列**：`Count of Students`（满足“至少一列数值型列”的要求；数据行数：302088）
 
@@ -14,9 +12,8 @@
 - Median：**21.000**
 - Mode（前 5 个）：**[10.0]**
 
-两种方法结果一致（允许极小浮点差异）。
 
-## 3) 数据可视化（标准库字符图）
+## 3) data visualision
 
 ### 横向迷你图（按 Year 聚合）
 ```
@@ -58,7 +55,5 @@ Vertical Mini Chart (latest buckets)
   - `01_pandas_step.ipynb`（pandas 计算）
   - `02_stdlib_step.ipynb`（纯标准库计算）
   - `03_visualization.ipynb`（标准库字符图）
-- 如需替换数据：将 CSV 覆盖到 `data/dataset.csv`，并把笔记本里列名改成你的列名。
-- （可选）使用命令 `jupyter-book build .` 生成整本书的 HTML。
 
-—— 完 ——
+
