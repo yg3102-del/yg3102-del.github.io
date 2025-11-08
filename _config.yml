@@ -8,7 +8,7 @@ author: "Yiran"
 only_build_toc_files: true
 
 execute:
-  execute_notebooks: "auto"
+  execute_notebooks: "off"
   timeout: 120
 
 sphinx:
