@@ -1,7 +1,5 @@
 format: jb-book
 root: intro
 chapters:
-  - file: 01_pandas_step
-  - file: 02_stdlib_step
-  - file: 03_visualization
+  - file: project1
 
