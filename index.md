@@ -7,5 +7,7 @@ Project 2 is about the relationship between cardiovascular mortality and aging p
 
 
 
-[Click here to view the analysis →](project1.md)
-[Click here to view the analysis →](project2.md)
+[Click here to view the project 1 →](project1.md)
+
+
+[Click here to view the project 2 →](project2.md)
