@@ -115,7 +115,11 @@ fig.write_image("contributing_factors_bar.png")  # Save the bar plot as a PNG fi
 # Show the plot (optional in Jupyter, will still show the figure interactively)
 fig.show()    
 ```
-![png](project3_files/contributing_factors_bar.png)
+### Visualizing contributing factor Comparison
+
+Here is the contributing_factors_bar chart:
+
+![contributing_factors_bar](project3_files/contributing_factors_bar.png)
 
 Analyzing the Top Accident Hotspots
 
@@ -209,7 +213,11 @@ fig_severity.write_image("accidents_by_time_of_day_pie.png")
 fig.show()
 ```
 
-![png](project3_files/accidents_by_time_of_day_pie.png)
+### Visualizing accident time Comparison
+
+Here is the accident by time of day pie chart:
+
+![accidents_by_time_of_day_pie](project3_files/accidents_by_time_of_day_pie.png)
 
 Accidents occur more frequently during the daytime, with a higher proportion (close to 60%). This suggests that during the day, especially during peak traffic hours (such as rush hours), there are more accidents.
 
@@ -278,8 +286,11 @@ fig_severity.show()
 ```
 
 
-    
-![png](project3_files/accident_severity_comparison.png)
+### Visualizing Accident Severity Comparison
+
+Here is the accident severity comparison chart:
+
+![Accident Severity Comparison](project3_files/accident_severity_comparison.png)
 
 
 
