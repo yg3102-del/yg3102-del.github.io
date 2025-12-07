@@ -109,8 +109,6 @@ if 'ACCIDENT_COUNT' in nta_gdf.columns:
     plt.show()
 else:
     print("The 'ACCIDENT_COUNT' column is not found in the merged GeoDataFrame.")
-# Save the plot as an image (PNG format)
-fig.write_image("contributing_factors_bar.png")  # Save the bar plot as a PNG file
 
 # Show the plot (optional in Jupyter, will still show the figure interactively)
 fig.show()    
@@ -207,8 +205,6 @@ fig = px.pie(time_of_day_accidents,
              values=time_of_day_accidents.values,
              title='Accidents by Time of Day in Hotspot Areas')
 
-fig_severity.write_image("accidents_by_time_of_day_pie.png")
-
 # Show the plot
 fig.show()
 ```
@@ -278,9 +274,6 @@ fig_severity.update_layout(
     yaxis_title='Total Severity (Count)',
     xaxis_tickangle=-45
 )
-
-# Save the figure as an image
-fig_severity.write_image("accident_severity_comparison.png")
 fig_severity.show()
 
 ```
