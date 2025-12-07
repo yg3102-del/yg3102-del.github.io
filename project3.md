@@ -42,11 +42,13 @@ crash_data.head()
 # Data cleaning: Remove records with missing latitude and longitude
 crash_data = crash_data.dropna(subset=['LATITUDE', 'LONGITUDE'])
 crash_data.head()
+```
 
 GeoDataFrame for Neighborhood Tabulation Areas (NTA)
 
 Next, we load the Neighborhood Tabulation Area (NTA) shapefile, which provides the geographical boundaries for New York City's neighborhoods. We will use this to map the accident data to specific neighborhoods. The NTA dataset includes polygons representing the boundaries of neighborhoods, and we can perform a spatial join with the accident data to understand accident distributions across neighborhoods.
 
+```python
 import geopandas as gpd
 
 nta_data = pd.read_csv('data/Tabulation_Areas.csv')
@@ -57,19 +59,23 @@ nta_data['geometry'] = gpd.GeoSeries.from_wkt(nta_data['the_geom'])
 nta_gdf = gpd.GeoDataFrame(nta_data, geometry='geometry')
 nta_gdf.set_crs("EPSG:4326", inplace=True)
 nta_gdf.head()
+```
+
 GeoDataFrame for Traffic Accidents
+
 Now, we will convert the LATITUDE and LONGITUDE columns in the crash data into geographical points using shapely.geometry.Point. This allows us to perform a spatial join later to count the number of accidents in each neighborhood.
 
-
+```python
 from shapely.geometry import Point
 accidents_geometry = [Point(xy) for xy in zip(crash_data['LONGITUDE'], crash_data['LATITUDE'])]
 accidents_gdf = gpd.GeoDataFrame(crash_data, geometry=accidents_geometry, crs="EPSG:4326")
+```
 
 Spatial Join to Count Accidents by Neighborhood
 
 Now, we perform a spatial join using overlay to find intersections between accident points and NTA polygons. This will give us the accident count for each NTA.
 
-
+```python
 # Use overlay to find intersections between accident points and NTA polygons
 accidents_nta = gpd.overlay(accidents_gdf, nta_gdf, how='intersection')
 
@@ -83,12 +89,13 @@ nta_gdf = nta_gdf.drop(columns=['ACCIDENT_COUNT_x', 'ACCIDENT_COUNT_y'])
 # Debugging: Check if 'ACCIDENT_COUNT' column is present in the merged GeoDataFrame
 print(nta_gdf.columns)  # Display the columns of the merged GeoDataFrame
 print(nta_gdf[['NTAName', 'ACCIDENT_COUNT']].head())
+```
 
 Visualizing Accident Counts by Neighborhood
 
 We now visualize the number of accidents in each NTA neighborhood using a choropleth map, where darker shades represent neighborhoods with higher accident counts.
 
-
+```python
 fig, ax = plt.subplots(figsize=(10, 10))
 
 # Check if 'ACCIDENT_COUNT' is available before plotting
@@ -102,24 +109,25 @@ if 'ACCIDENT_COUNT' in nta_gdf.columns:
     plt.show()
 else:
     print("The 'ACCIDENT_COUNT' column is not found in the merged GeoDataFrame.")
-
+```
 
 Analyzing the Top Accident Hotspots
 
 We will now identify the top 10 neighborhoods with the highest number of accidents. These hotspot neighborhoods will be the focus of further analysis.
 
-
+```python
 # Get the top 10 NTA neighborhoods with the highest accident counts
 top_hotspots = nta_gdf[['NTAName', 'ACCIDENT_COUNT']].sort_values(by='ACCIDENT_COUNT', ascending=False).head(10)
 
 # Display the top hotspots
 print(top_hotspots)
+```
 
 Contributing Factors to Accidents
 
 We will now analyze the contributing factors to accidents in the top hotspots. We'll combine the contributing factors into a single column and count how frequently each factor occurs.
 
-
+```python
 # Combine all contributing factors into a single column to count each factor
 contributing_factors_columns = [
     'CONTRIBUTING FACTOR VEHICLE 1', 'CONTRIBUTING FACTOR VEHICLE 2',
@@ -135,12 +143,13 @@ all_contributing_factors = hotspot_accidents[contributing_factors_columns].stack
 
 # Display the most common contributing factors
 print(all_contributing_factors)
-
+```
 
 Accident Severity Analysis
 
 Now, let's analyze the severity of accidents in these hotspot areas. We'll calculate the total number of injuries and fatalities.
 
+```python
 # Analyze accident severity in the hotspot neighborhoods
 severity_columns = [
     'NUMBER OF PERSONS INJURED', 'NUMBER OF PERSONS KILLED',
@@ -157,12 +166,13 @@ total_severity = hotspot_accidents_severity.sum()
 
 # Display the total severity
 print(total_severity)
+```
 
 Time of Day Analysis
 
 We'll now examine how accidents are distributed across day and night in the hotspot neighborhoods, based on the time of day.
 
-
+```python
 # Convert 'CRASH_TIME' to datetime
 hotspot_accidents['CRASH TIME'] = pd.to_datetime(hotspot_accidents['CRASH TIME'], errors='coerce')
 
@@ -187,8 +197,85 @@ fig = px.pie(time_of_day_accidents,
              values=time_of_day_accidents.values,
              title='Accidents by Time of Day in Hotspot Areas')
 
+fig_severity.write_image("accident_severity_comparison.png")
+
 # Show the plot
 fig.show()
+```
+
+![png](project3_files/accident_severity_comparison.png)
+
+Accidents occur more frequently during the daytime, with a higher proportion (close to 60%). This suggests that during the day, especially during peak traffic hours (such as rush hours), there are more accidents.
+
+Nighttime accidents, while lower in proportion (around 40%), still represent a significant portion of accidents, likely linked to factors such as poor visibility, fatigue driving, or impaired driving.
+
+Daytime accidents contribute more to overall severity in terms of both injuries and fatalities. This could be linked to higher traffic volumes and congestion during the day.
+
+```python
+# Filter accidents that occurred during the daytime (time_of_day == 'Day')
+daytime_accidents = hotspot_accidents[hotspot_accidents['time_of_day'] == 'Day']
+nighttime_accidents = hotspot_accidents[hotspot_accidents['time_of_day'] == 'Night']
+
+# Check severity of daytime accidents
+daytime_severity = daytime_accidents[[
+    'NUMBER OF PERSONS INJURED', 'NUMBER OF PERSONS KILLED',
+    'NUMBER OF PEDESTRIANS INJURED', 'NUMBER OF PEDESTRIANS KILLED',
+    'NUMBER OF CYCLIST INJURED', 'NUMBER OF CYCLIST KILLED'
+]].sum()
+
+# Check severity of nighttime accidents
+nighttime_severity = nighttime_accidents[[
+    'NUMBER OF PERSONS INJURED', 'NUMBER OF PERSONS KILLED',
+    'NUMBER OF PEDESTRIANS INJURED', 'NUMBER OF PEDESTRIANS KILLED',
+    'NUMBER OF CYCLIST INJURED', 'NUMBER OF CYCLIST KILLED'
+]].sum()
+
+# Display the total severity for both Day and Night
+print("\nDaytime Accident Severity:")
+print(daytime_severity)
+print("\nNighttime Accident Severity:")
+print(nighttime_severity)
+
+# Combine the data into a long format (for better compatibility with Plotly)
+severity_data = pd.DataFrame({
+    'Accident Type': ['Persons Injured', 'Persons Killed', 'Pedestrians Injured', 'Pedestrians Killed', 'Cyclists Injured', 'Cyclists Killed'],
+    'Daytime': daytime_severity.values,
+    'Nighttime': nighttime_severity.values
+})
+
+severity_data_long = pd.melt(severity_data, id_vars=['Accident Type'], value_vars=['Daytime', 'Nighttime'],
+                             var_name='Time of Day', value_name='Frequency')
+
+# Create a stacked bar chart
+fig_severity = px.bar(
+    severity_data_long, 
+    x='Accident Type', 
+    y='Frequency', 
+    color='Time of Day',
+    title='Accident Severity Comparison: Daytime vs Nighttime',
+    labels={'Accident Type': 'Type of Accident', 'Frequency': 'Severity (Total Count)', 'Time of Day': 'Time of Day'},
+    color_discrete_map={'Daytime': "#DE8729", 'Nighttime': "#2B8FD6"},  # Softer colors
+    barmode='stack'  # Set the bar mode to "stack" to make it stacked
+)
+
+# Update layout for better appearance
+fig_severity.update_layout(
+    xaxis_title='Type of Accident',
+    yaxis_title='Total Severity (Count)',
+    xaxis_tickangle=-45
+)
+
+# Save the figure as an image
+fig_severity.write_image("accident_severity_comparison.png")
+fig_severity.show()
+
+```
+
+
+    
+![png](project3_files/accident_severity_comparison.png)
+
+
 
 Summary
 Findings:
