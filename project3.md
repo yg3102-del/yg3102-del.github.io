@@ -109,7 +109,13 @@ if 'ACCIDENT_COUNT' in nta_gdf.columns:
     plt.show()
 else:
     print("The 'ACCIDENT_COUNT' column is not found in the merged GeoDataFrame.")
+# Save the plot as an image (PNG format)
+fig.write_image("contributing_factors_bar.png")  # Save the bar plot as a PNG file
+
+# Show the plot (optional in Jupyter, will still show the figure interactively)
+fig.show()    
 ```
+![png](project3_files/contributing_factors_bar.png)
 
 Analyzing the Top Accident Hotspots
 
@@ -197,13 +203,13 @@ fig = px.pie(time_of_day_accidents,
              values=time_of_day_accidents.values,
              title='Accidents by Time of Day in Hotspot Areas')
 
-fig_severity.write_image("accident_severity_comparison.png")
+fig_severity.write_image("accidents_by_time_of_day_pie.png")
 
 # Show the plot
 fig.show()
 ```
 
-![png](project3_files/accident_severity_comparison.png)
+![png](project3_files/accidents_by_time_of_day_pie.png)
 
 Accidents occur more frequently during the daytime, with a higher proportion (close to 60%). This suggests that during the day, especially during peak traffic hours (such as rush hours), there are more accidents.
 
