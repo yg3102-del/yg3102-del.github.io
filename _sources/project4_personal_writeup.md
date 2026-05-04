@@ -6,9 +6,18 @@ Later, we changed the question. We started to ask: **what does the citywide aver
 
 This change also shaped how we used the data. We did not want to use only one dataset. The crash-level data tells us where and when crashes happen. It also shows the reported causes. The person-level data tells us who was hurt or killed. By combining these two datasets, we could connect crash conditions with human outcomes. This made the project more useful than a basic crash-count dashboard.
 
+
+![Dashboard home page](project4_files/dashboard_home.png)
+
+
 The dashboard has four main pages. The first page gives the overall picture. The second page looks at road users. This is where we saw that pedestrians and cyclists face much higher fatality risk once they are involved in a crash. The third page looks at place and time. It compares crash causes by borough and by time of day. The last page connects these results to policy choices. For example, a late-night crash pattern may point to speed or alcohol. A daytime pattern may point more to distraction or failure to yield.
 
-My main contribution was on the data and app structure. I helped move the project away from calling the raw API during app use. Instead, the data pipeline pulls data from NYC Open Data, cleans the fields we need, and stores the result in BigQuery. The Streamlit app then sends queries based on the user’s filter choices. This matters because the app should not become slow every time someone changes a borough or time period. I also worked on shared filter logic, caching, and query performance.
+
+![Road user risk page](project4_files/dashboard_risk.png)
+
+My main contribution was working on the data pipeline and dashboard structure. I helped retrieve data from NYC Open Data through the Socrata API, clean and organize the dataset, and connect the project to BigQuery so the app could load data more efficiently. I also worked on Streamlit pages that display live 2026 collision data and visualizations. Through this process, I learned that building a dashboard is not only about making charts. It also requires careful decisions about data quality, loading speed, column selection, and how to make the results understandable for users.
+
+![Where and when analysis page](project4_files/dashboard_where_when.png)
 
 One problem I learned from was the crash time field. The API does not store time in the clean way we expected. If we handled it like a normal string, the app could read the wrong part of the value. That would make the day and late-night analysis unreliable. Fixing this made me realize that small data cleaning choices can change the whole meaning of a chart.
 
@@ -16,13 +25,6 @@ The biggest thing I learned is that a dashboard should not just display data. It
 
 This project also changed how I think about public data. Open data looks objective, but it still needs careful framing. If we only rank boroughs by total crashes, we may miss where pedestrians face the highest danger. If we only show citywide averages, we may miss local patterns. A useful dashboard should make those hidden differences easier to see.
 
-## Screenshots of the Live App
-
-![Dashboard home page](project4_files/dashboard_home.png)
-
-![Road user risk page](project4_files/dashboard_risk.png)
-
-![Where and when analysis page](project4_files/dashboard_where_when.png)
 
 ![Policy recommendations page](project4_files/dashboard_policy.png)
 
