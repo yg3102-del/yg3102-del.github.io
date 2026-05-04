@@ -1,0 +1,1479 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Project III: Traffic Accident Analysis in NYC (2025) &#8212; Computing Project III</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'project3';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Project II: Cardiovascular Mortality and Aging Population" href="project2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing Project III</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="project1.html">Project 1: Analysis of Student Count Distribution Across School Years</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project2.html">Project II: Cardiovascular Mortality and Aging Population</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Project III: Traffic Accident Analysis in NYC (2025)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/project3.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Project III: Traffic Accident Analysis in NYC (2025)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-data">Loading the Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geodataframe-for-neighborhood-tabulation-areas-nta">GeoDataFrame for Neighborhood Tabulation Areas (NTA)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geodataframe-for-traffic-accidents">GeoDataFrame for Traffic Accidents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-join-to-count-accidents-by-neighborhood">Spatial Join to Count Accidents by Neighborhood</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-accident-counts-by-neighborhood">Visualizing Accident Counts by Neighborhood</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-the-top-accident-hotspots">Analyzing the Top Accident Hotspots</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-factors-to-accidents">Contributing Factors to Accidents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accident-severity-analysis">Accident Severity Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-of-day-analysis">Time of Day Analysis</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="project-iii-traffic-accident-analysis-in-nyc-2025">
+<h1>Project III: Traffic Accident Analysis in NYC (2025)<a class="headerlink" href="#project-iii-traffic-accident-analysis-in-nyc-2025" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Dataset(s) to be used:
+<strong>Motor Vehicle Collisions Data</strong> from the <a class="reference external" href="https://data.cityofnewyork.us/Transportation/Motor-Vehicle-Collisions-2016-to-Present/ijzp-q8t2">NYC Open Data Portal</a>. This dataset includes information on traffic accidents in New York City from 2016 to the present, including details like the location of accidents, contributing factors, time, and the severity of the accidents.</p>
+<ul class="simple">
+<li><p><strong>NYPD Arrest Data</strong> for the year 2025 from <a class="reference external" href="https://data.cityofnewyork.us/Public-Safety/NYPD-Arrest-Data-Year-to-Date-/uip8-fykc/about_data">NYC Open Data</a>. This dataset contains detailed information about arrests made in NYC, including arrest date, location, and crime type.</p></li>
+</ul>
+<p>Analysis question: In NYC, do neighborhoods with higher poverty levels experience disproportionately higher arrest rates in 2025?</p>
+<p>[Dataset 1] [LATITUDE] [LONGITUDE] [NTAName] [CRASH TIME] [CONTRIBUTING FACTOR VEHICLE] [NUMBER OF PERSONS INJURED] [NUMBER OF PEDESTRIANS INJURED]</p>
+<p>[Dataset 2] [NTAName] [the_geom] [geometry]</p>
+<p>Hypothesis: Higher poverty neighborhoods have higher arrest rates, especially for violent crimes. We will investigate whether there is a correlation between neighborhoods with higher accident rates and higher arrest rates, considering factors such as contributing factors to accidents and accident severity.</p>
+<section id="loading-the-data">
+<h3>Loading the Data<a class="headerlink" href="#loading-the-data" title="Link to this heading">#</a></h3>
+<p>We will start by loading the traffic accident data and cleaning it to remove any rows with missing latitude or longitude information.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the traffic accident data</span>
+<span class="n">crash_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/Motor_Vehicle.csv&#39;</span><span class="p">)</span>
+<span class="n">crash_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CRASH DATE</th>
+      <th>CRASH TIME</th>
+      <th>BOROUGH</th>
+      <th>ZIP CODE</th>
+      <th>LATITUDE</th>
+      <th>LONGITUDE</th>
+      <th>LOCATION</th>
+      <th>ON STREET NAME</th>
+      <th>CROSS STREET NAME</th>
+      <th>OFF STREET NAME</th>
+      <th>...</th>
+      <th>CONTRIBUTING FACTOR VEHICLE 2</th>
+      <th>CONTRIBUTING FACTOR VEHICLE 3</th>
+      <th>CONTRIBUTING FACTOR VEHICLE 4</th>
+      <th>CONTRIBUTING FACTOR VEHICLE 5</th>
+      <th>COLLISION_ID</th>
+      <th>VEHICLE TYPE CODE 1</th>
+      <th>VEHICLE TYPE CODE 2</th>
+      <th>VEHICLE TYPE CODE 3</th>
+      <th>VEHICLE TYPE CODE 4</th>
+      <th>VEHICLE TYPE CODE 5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12/06/2024</td>
+      <td>15:50</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>40.771347</td>
+      <td>-73.833390</td>
+      <td>(40.771347, -73.83339)</td>
+      <td>LINDEN PLACE</td>
+      <td>I 678</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Unspecified</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4783211</td>
+      <td>Sedan</td>
+      <td>Sedan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>12/06/2024</td>
+      <td>0:00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>40.828804</td>
+      <td>-73.846860</td>
+      <td>(40.828804, -73.84686)</td>
+      <td>CROSS BRONX EXPY</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Unspecified</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4783514</td>
+      <td>Sedan</td>
+      <td>Station Wagon/Sport Utility Vehicle</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>12/06/2024</td>
+      <td>16:05</td>
+      <td>MANHATTAN</td>
+      <td>10019.0</td>
+      <td>40.766670</td>
+      <td>-73.980390</td>
+      <td>(40.76667, -73.98039)</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>215       W 58 ST</td>
+      <td>...</td>
+      <td>Unspecified</td>
+      <td>Unspecified</td>
+      <td>Unspecified</td>
+      <td>NaN</td>
+      <td>4783565</td>
+      <td>Sedan</td>
+      <td>Sedan</td>
+      <td>Sedan</td>
+      <td>Sedan</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>12/06/2024</td>
+      <td>0:00</td>
+      <td>BRONX</td>
+      <td>10453.0</td>
+      <td>40.851100</td>
+      <td>-73.904680</td>
+      <td>(40.8511, -73.90468)</td>
+      <td>GRAND CONC</td>
+      <td>E 179 ST</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Unspecified</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4783850</td>
+      <td>Sedan</td>
+      <td>Sedan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>12/06/2024</td>
+      <td>9:00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>40.608757</td>
+      <td>-74.038086</td>
+      <td>(40.608757, -74.038086)</td>
+      <td>VERRAZANO BRIDGE UPPER</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Unspecified</td>
+      <td>Unspecified</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4784391</td>
+      <td>Sedan</td>
+      <td>Station Wagon/Sport Utility Vehicle</td>
+      <td>Convertible</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Data cleaning: Remove records with missing latitude and longitude</span>
+<span class="n">crash_data</span> <span class="o">=</span> <span class="n">crash_data</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LATITUDE&#39;</span><span class="p">,</span> <span class="s1">&#39;LONGITUDE&#39;</span><span class="p">])</span>
+<span class="n">crash_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CRASH DATE</th>
+      <th>CRASH TIME</th>
+      <th>BOROUGH</th>
+      <th>ZIP CODE</th>
+      <th>LATITUDE</th>
+      <th>LONGITUDE</th>
+      <th>LOCATION</th>
+      <th>ON STREET NAME</th>
+      <th>CROSS STREET NAME</th>
+      <th>OFF STREET NAME</th>
+      <th>...</th>
+      <th>CONTRIBUTING FACTOR VEHICLE 2</th>
+      <th>CONTRIBUTING FACTOR VEHICLE 3</th>
+      <th>CONTRIBUTING FACTOR VEHICLE 4</th>
+      <th>CONTRIBUTING FACTOR VEHICLE 5</th>
+      <th>COLLISION_ID</th>
+      <th>VEHICLE TYPE CODE 1</th>
+      <th>VEHICLE TYPE CODE 2</th>
+      <th>VEHICLE TYPE CODE 3</th>
+      <th>VEHICLE TYPE CODE 4</th>
+      <th>VEHICLE TYPE CODE 5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12/06/2024</td>
+      <td>15:50</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>40.771347</td>
+      <td>-73.833390</td>
+      <td>(40.771347, -73.83339)</td>
+      <td>LINDEN PLACE</td>
+      <td>I 678</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Unspecified</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4783211</td>
+      <td>Sedan</td>
+      <td>Sedan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>12/06/2024</td>
+      <td>0:00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>40.828804</td>
+      <td>-73.846860</td>
+      <td>(40.828804, -73.84686)</td>
+      <td>CROSS BRONX EXPY</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Unspecified</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4783514</td>
+      <td>Sedan</td>
+      <td>Station Wagon/Sport Utility Vehicle</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>12/06/2024</td>
+      <td>16:05</td>
+      <td>MANHATTAN</td>
+      <td>10019.0</td>
+      <td>40.766670</td>
+      <td>-73.980390</td>
+      <td>(40.76667, -73.98039)</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>215       W 58 ST</td>
+      <td>...</td>
+      <td>Unspecified</td>
+      <td>Unspecified</td>
+      <td>Unspecified</td>
+      <td>NaN</td>
+      <td>4783565</td>
+      <td>Sedan</td>
+      <td>Sedan</td>
+      <td>Sedan</td>
+      <td>Sedan</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>12/06/2024</td>
+      <td>0:00</td>
+      <td>BRONX</td>
+      <td>10453.0</td>
+      <td>40.851100</td>
+      <td>-73.904680</td>
+      <td>(40.8511, -73.90468)</td>
+      <td>GRAND CONC</td>
+      <td>E 179 ST</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Unspecified</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4783850</td>
+      <td>Sedan</td>
+      <td>Sedan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>12/06/2024</td>
+      <td>9:00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>40.608757</td>
+      <td>-74.038086</td>
+      <td>(40.608757, -74.038086)</td>
+      <td>VERRAZANO BRIDGE UPPER</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Unspecified</td>
+      <td>Unspecified</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4784391</td>
+      <td>Sedan</td>
+      <td>Station Wagon/Sport Utility Vehicle</td>
+      <td>Convertible</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="geodataframe-for-neighborhood-tabulation-areas-nta">
+<h3>GeoDataFrame for Neighborhood Tabulation Areas (NTA)<a class="headerlink" href="#geodataframe-for-neighborhood-tabulation-areas-nta" title="Link to this heading">#</a></h3>
+<p>Next, we’ll load the neighborhood tabulation area (NTA) shapefile, which provides the geographical boundaries for New York City’s neighborhoods. We’ll use this to map accident data to specific neighborhoods.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="n">nta_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/Tabulation_Areas.csv&#39;</span><span class="p">)</span>
+
+<span class="n">nta_data</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoSeries</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">nta_data</span><span class="p">[</span><span class="s1">&#39;the_geom&#39;</span><span class="p">])</span>
+
+<span class="c1"># Create a GeoDataFrame for NTA</span>
+<span class="n">nta_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">nta_data</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;geometry&#39;</span><span class="p">)</span>
+<span class="n">nta_gdf</span><span class="o">.</span><span class="n">set_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">nta_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>BoroCode</th>
+      <th>BoroName</th>
+      <th>CountyFIPS</th>
+      <th>NTA2020</th>
+      <th>NTAName</th>
+      <th>NTAAbbrev</th>
+      <th>NTAType</th>
+      <th>CDTA2020</th>
+      <th>CDTAName</th>
+      <th>Shape_Length</th>
+      <th>Shape_Area</th>
+      <th>the_geom</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>Brooklyn</td>
+      <td>47</td>
+      <td>BK0101</td>
+      <td>Greenpoint</td>
+      <td>Grnpt</td>
+      <td>0</td>
+      <td>BK01</td>
+      <td>BK01 Williamsburg-Greenpoint (CD 1 Equivalent)</td>
+      <td>28,919.5611508</td>
+      <td>35,321,808.3909</td>
+      <td>MULTIPOLYGON (((-73.9321339742769 40.728159603...</td>
+      <td>MULTIPOLYGON (((-73.93213 40.72816, -73.93238 ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>Brooklyn</td>
+      <td>47</td>
+      <td>BK0102</td>
+      <td>Williamsburg</td>
+      <td>Wllmsbrg</td>
+      <td>0</td>
+      <td>BK01</td>
+      <td>BK01 Williamsburg-Greenpoint (CD 1 Equivalent)</td>
+      <td>28,134.0826611</td>
+      <td>28,852,852.9133</td>
+      <td>MULTIPOLYGON (((-73.95814292411644 40.72440428...</td>
+      <td>MULTIPOLYGON (((-73.95814 40.7244, -73.95772 4...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Brooklyn</td>
+      <td>47</td>
+      <td>BK0103</td>
+      <td>South Williamsburg</td>
+      <td>SWllmsbrg</td>
+      <td>0</td>
+      <td>BK01</td>
+      <td>BK01 Williamsburg-Greenpoint (CD 1 Equivalent)</td>
+      <td>18,250.2800908</td>
+      <td>15,208,960.645</td>
+      <td>MULTIPOLYGON (((-73.95023693669857 40.70547324...</td>
+      <td>MULTIPOLYGON (((-73.95024 40.70547, -73.94984 ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>Brooklyn</td>
+      <td>47</td>
+      <td>BK0104</td>
+      <td>East Williamsburg</td>
+      <td>EWllmsbrg</td>
+      <td>0</td>
+      <td>BK01</td>
+      <td>BK01 Williamsburg-Greenpoint (CD 1 Equivalent)</td>
+      <td>43,184.8003755</td>
+      <td>52,267,406.735</td>
+      <td>MULTIPOLYGON (((-73.92405909659959 40.71411155...</td>
+      <td>MULTIPOLYGON (((-73.92406 40.71411, -73.92404 ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>Brooklyn</td>
+      <td>47</td>
+      <td>BK0201</td>
+      <td>Brooklyn Heights</td>
+      <td>BkHts</td>
+      <td>0</td>
+      <td>BK02</td>
+      <td>BK02 Downtown Brooklyn-Fort Greene (CD 2 Appro...</td>
+      <td>14,312.1922849</td>
+      <td>9,982,022.78755</td>
+      <td>MULTIPOLYGON (((-73.9923636691119 40.689690123...</td>
+      <td>MULTIPOLYGON (((-73.99236 40.68969, -73.99436 ...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="geodataframe-for-traffic-accidents">
+<h3>GeoDataFrame for Traffic Accidents<a class="headerlink" href="#geodataframe-for-traffic-accidents" title="Link to this heading">#</a></h3>
+<p>Now we will convert the LATITUDE and LONGITUDE columns in the crash data into geographical points using shapely.geometry.Point. This will allow us to perform a spatial join later to count the number of accidents in each neighborhood.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">nta_gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>  <span class="c1"># Check column names in nta_gdf</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">accidents_count_by_nta</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>  <span class="c1"># Check column names in accidents_count_by_nta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;BoroCode&#39;, &#39;BoroName&#39;, &#39;CountyFIPS&#39;, &#39;NTA2020&#39;, &#39;NTAName&#39;, &#39;NTAAbbrev&#39;,
+       &#39;NTAType&#39;, &#39;CDTA2020&#39;, &#39;CDTAName&#39;, &#39;Shape_Length&#39;, &#39;Shape_Area&#39;,
+       &#39;the_geom&#39;, &#39;geometry&#39;],
+      dtype=&#39;object&#39;)
+Index([&#39;NTAName&#39;, &#39;ACCIDENT_COUNT&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="spatial-join-to-count-accidents-by-neighborhood">
+<h3>Spatial Join to Count Accidents by Neighborhood<a class="headerlink" href="#spatial-join-to-count-accidents-by-neighborhood" title="Link to this heading">#</a></h3>
+<p>Now, we perform a spatial join using overlay to find intersections between accident points and NTA polygons. This will give us the accident count for each NTA.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Point</span>
+
+<span class="n">accidents_geometry</span> <span class="o">=</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span> <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">crash_data</span><span class="p">[</span><span class="s1">&#39;LONGITUDE&#39;</span><span class="p">],</span> <span class="n">crash_data</span><span class="p">[</span><span class="s1">&#39;LATITUDE&#39;</span><span class="p">])]</span>
+<span class="n">accidents_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">crash_data</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">accidents_geometry</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+
+<span class="c1"># Use overlay to find intersections between accident points and NTA polygons</span>
+<span class="n">accidents_nta</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">accidents_gdf</span><span class="p">,</span> <span class="n">nta_gdf</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;intersection&#39;</span><span class="p">)</span>
+
+<span class="c1"># Step 8: Count accidents per NTA (Neighborhood Tabulation Area)</span>
+<span class="n">accidents_count_by_nta</span> <span class="o">=</span> <span class="n">accidents_nta</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;NTAName&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;ACCIDENT_COUNT&#39;</span><span class="p">)</span>
+
+<span class="c1"># Step 9: Merge the accident counts with the NTA GeoDataFrame</span>
+<span class="n">nta_gdf</span> <span class="o">=</span> <span class="n">nta_gdf</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">accidents_count_by_nta</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;NTAName&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1"># Debugging: Check if &#39;ACCIDENT_COUNT&#39; column is present in the merged GeoDataFrame</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nta_gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>  <span class="c1"># Display the columns of the merged GeoDataFrame</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nta_gdf</span><span class="p">[[</span><span class="s1">&#39;NTAName&#39;</span><span class="p">,</span> <span class="s1">&#39;ACCIDENT_COUNT&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;BoroCode&#39;, &#39;BoroName&#39;, &#39;CountyFIPS&#39;, &#39;NTA2020&#39;, &#39;NTAName&#39;, &#39;NTAAbbrev&#39;,
+       &#39;NTAType&#39;, &#39;CDTA2020&#39;, &#39;CDTAName&#39;, &#39;Shape_Length&#39;, &#39;Shape_Area&#39;,
+       &#39;the_geom&#39;, &#39;geometry&#39;, &#39;ACCIDENT_COUNT&#39;],
+      dtype=&#39;object&#39;)
+              NTAName  ACCIDENT_COUNT
+0          Greenpoint           404.0
+1        Williamsburg           586.0
+2  South Williamsburg           433.0
+3   East Williamsburg           996.0
+4    Brooklyn Heights           267.0
+</pre></div>
+</div>
+</div>
+</div>
+<section id="visualizing-accident-counts-by-neighborhood">
+<h4>Visualizing Accident Counts by Neighborhood<a class="headerlink" href="#visualizing-accident-counts-by-neighborhood" title="Link to this heading">#</a></h4>
+<p>We now visualize the number of accidents in each NTA neighborhood using a choropleth map, where darker shades represent neighborhoods with higher accident counts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Check if &#39;ACCIDENT_COUNT&#39; is available before plotting</span>
+<span class="k">if</span> <span class="s1">&#39;ACCIDENT_COUNT&#39;</span> <span class="ow">in</span> <span class="n">nta_gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">nta_gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;ACCIDENT_COUNT&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s2">&quot;Number of Accidents by NTA&quot;</span><span class="p">,</span>
+                              <span class="s1">&#39;orientation&#39;</span><span class="p">:</span> <span class="s2">&quot;horizontal&quot;</span><span class="p">},</span>
+                 <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;OrRd&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Traffic Accidents by Neighborhood in NYC (2025)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The &#39;ACCIDENT_COUNT&#39; column is not found in the merged GeoDataFrame.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6af298eb9bdd6aaa791e64990a55acd4f6b8b20e22f53bc6a58a2df0f1e1cd6c.png" src="_images/6af298eb9bdd6aaa791e64990a55acd4f6b8b20e22f53bc6a58a2df0f1e1cd6c.png" />
+</div>
+</div>
+<p>The areas with darker red shades have a higher number of accidents, while lighter areas indicate neighborhoods with fewer accidents.</p>
+<p>The darker red regions likely correspond to high-density neighborhoods or areas with more traffic.</p>
+<p>Manhattan, especially the central and midtown areas, might have higher accident counts, which is common in densely populated urban centers with more vehicles and pedestrians.</p>
+<p>Brooklyn and Queens might also show areas with significant accident concentrations, especially near major roads or industrial zones.</p>
+<p>Staten Island and some parts of The Bronx might show relatively lighter shades, suggesting fewer accidents in certain less dense or suburban-like areas.</p>
+</section>
+</section>
+<section id="analyzing-the-top-accident-hotspots">
+<h3>Analyzing the Top Accident Hotspots<a class="headerlink" href="#analyzing-the-top-accident-hotspots" title="Link to this heading">#</a></h3>
+<p>We will now identify the top 10 neighborhoods with the highest number of accidents. These hotspot neighborhoods will be the focus of further analysis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the top 10 NTA neighborhoods with the highest accident counts</span>
+<span class="n">top_hotspots</span> <span class="o">=</span> <span class="n">nta_gdf</span><span class="p">[[</span><span class="s1">&#39;NTAName&#39;</span><span class="p">,</span> <span class="s1">&#39;ACCIDENT_COUNT&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ACCIDENT_COUNT&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Display the top hotspots</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">top_hotspots</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                          NTAName  ACCIDENT_COUNT
+130                          Midtown-Times Square          1019.0
+3                               East Williamsburg           996.0
+148                           East Harlem (North)           959.0
+206                              South Ozone Park           953.0
+215                                       Jamaica           879.0
+20   Carroll Gardens-Cobble Hill-Gowanus-Red Hook           867.0
+61                                       Canarsie           833.0
+23                             Sunset Park (West)           823.0
+27                          Crown Heights (North)           816.0
+9                       Bedford-Stuyvesant (West)           801.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">accidents_nta</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">hotspot_ntas</span> <span class="o">=</span> <span class="n">top_hotspots</span><span class="p">[</span><span class="s1">&#39;NTAName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;CRASH DATE&#39;, &#39;CRASH TIME&#39;, &#39;BOROUGH&#39;, &#39;ZIP CODE&#39;, &#39;LATITUDE&#39;,
+       &#39;LONGITUDE&#39;, &#39;LOCATION&#39;, &#39;ON STREET NAME&#39;, &#39;CROSS STREET NAME&#39;,
+       &#39;OFF STREET NAME&#39;, &#39;NUMBER OF PERSONS INJURED&#39;,
+       &#39;NUMBER OF PERSONS KILLED&#39;, &#39;NUMBER OF PEDESTRIANS INJURED&#39;,
+       &#39;NUMBER OF PEDESTRIANS KILLED&#39;, &#39;NUMBER OF CYCLIST INJURED&#39;,
+       &#39;NUMBER OF CYCLIST KILLED&#39;, &#39;NUMBER OF MOTORIST INJURED&#39;,
+       &#39;NUMBER OF MOTORIST KILLED&#39;, &#39;CONTRIBUTING FACTOR VEHICLE 1&#39;,
+       &#39;CONTRIBUTING FACTOR VEHICLE 2&#39;, &#39;CONTRIBUTING FACTOR VEHICLE 3&#39;,
+       &#39;CONTRIBUTING FACTOR VEHICLE 4&#39;, &#39;CONTRIBUTING FACTOR VEHICLE 5&#39;,
+       &#39;COLLISION_ID&#39;, &#39;VEHICLE TYPE CODE 1&#39;, &#39;VEHICLE TYPE CODE 2&#39;,
+       &#39;VEHICLE TYPE CODE 3&#39;, &#39;VEHICLE TYPE CODE 4&#39;, &#39;VEHICLE TYPE CODE 5&#39;,
+       &#39;BoroCode&#39;, &#39;BoroName&#39;, &#39;CountyFIPS&#39;, &#39;NTA2020&#39;, &#39;NTAName&#39;, &#39;NTAAbbrev&#39;,
+       &#39;NTAType&#39;, &#39;CDTA2020&#39;, &#39;CDTAName&#39;, &#39;Shape_Length&#39;, &#39;Shape_Area&#39;,
+       &#39;the_geom&#39;, &#39;geometry&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="contributing-factors-to-accidents">
+<h3>Contributing Factors to Accidents<a class="headerlink" href="#contributing-factors-to-accidents" title="Link to this heading">#</a></h3>
+<p>We will now analyze the contributing factors to accidents in the top hotspots. We’ll combine the contributing factors into a single column and count how frequently each factor occurs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Combine all contributing factors into a single column to count each factor</span>
+<span class="n">contributing_factors_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;CONTRIBUTING FACTOR VEHICLE 1&#39;</span><span class="p">,</span> <span class="s1">&#39;CONTRIBUTING FACTOR VEHICLE 2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;CONTRIBUTING FACTOR VEHICLE 3&#39;</span><span class="p">,</span> <span class="s1">&#39;CONTRIBUTING FACTOR VEHICLE 4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;CONTRIBUTING FACTOR VEHICLE 5&#39;</span>
+<span class="p">]</span>
+
+<span class="c1"># Filter accidents that happened in the top NTA neighborhoods</span>
+<span class="n">hotspot_accidents</span> <span class="o">=</span> <span class="n">accidents_nta</span><span class="p">[</span><span class="n">accidents_nta</span><span class="p">[</span><span class="s1">&#39;NTAName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">hotspot_ntas</span><span class="p">)]</span>
+
+<span class="c1"># Combine contributing factors into a single column</span>
+<span class="n">all_contributing_factors</span> <span class="o">=</span> <span class="n">hotspot_accidents</span><span class="p">[</span><span class="n">contributing_factors_columns</span><span class="p">]</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+<span class="c1"># Display the most common contributing factors</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">all_contributing_factors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unspecified                                              8596
+Driver Inattention/Distraction                           2608
+Failure to Yield Right-of-Way                             670
+Following Too Closely                                     663
+Other Vehicular                                           610
+Passing or Lane Usage Improper                            494
+Traffic Control Disregarded                               355
+Unsafe Speed                                              351
+Passing Too Closely                                       317
+Backing Unsafely                                          277
+Turning Improperly                                        269
+Driver Inexperience                                       246
+Unsafe Lane Changing                                      223
+Pedestrian/Bicyclist/Other Pedestrian Error/Confusion     187
+Alcohol Involvement                                       176
+View Obstructed/Limited                                   105
+Reaction to Uninvolved Vehicle                             97
+Aggressive Driving/Road Rage                               71
+Pavement Slippery                                          51
+Oversized Vehicle                                          42
+Brakes Defective                                           40
+Outside Car Distraction                                    40
+Fell Asleep                                                39
+Steering Failure                                           30
+Passenger Distraction                                      29
+Obstruction/Debris                                         29
+Lost Consciousness                                         18
+Tire Failure/Inadequate                                    17
+Failure to Keep Right                                      16
+Glare                                                      15
+Pavement Defective                                         14
+Fatigued/Drowsy                                            14
+Illnes                                                     12
+Traffic Control Device Improper/Non-Working                 9
+Lane Marking Improper/Inadequate                            7
+Driverless/Runaway Vehicle                                  7
+Physical Disability                                         5
+Accelerator Defective                                       5
+Drugs (illegal)                                             5
+Cell Phone (hand-Held)                                      4
+Tinted Windows                                              3
+Animals Action                                              3
+Vehicle Vandalism                                           2
+Eating or Drinking                                          2
+Headlights Defective                                        2
+Shoulders Defective/Improper                                1
+Other Electronic Device                                     1
+Tow Hitch Defective                                         1
+Cell Phone (hands-free)                                     1
+Using On Board Navigation Device                            1
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="accident-severity-analysis">
+<h3>Accident Severity Analysis<a class="headerlink" href="#accident-severity-analysis" title="Link to this heading">#</a></h3>
+<p>Now, let’s analyze the severity of accidents in these hotspot areas. We’ll calculate the total number of injuries and fatalities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze accident severity in the hotspot neighborhoods</span>
+<span class="n">severity_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;NUMBER OF PERSONS INJURED&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBER OF PERSONS KILLED&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NUMBER OF PEDESTRIANS INJURED&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBER OF PEDESTRIANS KILLED&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NUMBER OF CYCLIST INJURED&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBER OF CYCLIST KILLED&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NUMBER OF MOTORIST INJURED&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBER OF MOTORIST KILLED&#39;</span>
+<span class="p">]</span>
+
+<span class="c1"># Filter the hotspot accidents</span>
+<span class="n">hotspot_accidents_severity</span> <span class="o">=</span> <span class="n">hotspot_accidents</span><span class="p">[</span><span class="n">severity_columns</span><span class="p">]</span>
+
+<span class="c1"># Calculate the total number of injuries and deaths in these areas</span>
+<span class="n">total_severity</span> <span class="o">=</span> <span class="n">hotspot_accidents_severity</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Display the total severity</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">total_severity</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUMBER OF PERSONS INJURED        5254
+NUMBER OF PERSONS KILLED           28
+NUMBER OF PEDESTRIANS INJURED    1010
+NUMBER OF PEDESTRIANS KILLED       15
+NUMBER OF CYCLIST INJURED         699
+NUMBER OF CYCLIST KILLED            3
+NUMBER OF MOTORIST INJURED       3400
+NUMBER OF MOTORIST KILLED          10
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a bar plot for contributing factors</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">all_contributing_factors</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">all_contributing_factors</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">all_contributing_factors</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+             <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;Contributing Factor&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;Frequency&#39;</span><span class="p">},</span>
+             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Most Common Contributing Factors in Hotspot Areas&#39;</span><span class="p">)</span>
+
+<span class="c1"># Customize the appearance of the plot</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;Contributing Factor&#39;</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;Frequency&#39;</span><span class="p">,</span>
+    <span class="n">xaxis_tickangle</span><span class="o">=-</span><span class="mi">45</span>
+<span class="p">)</span>
+<span class="c1"># Save the plot as an image (PNG format)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="s2">&quot;contributing_factors_bar.png&quot;</span><span class="p">)</span>  <span class="c1"># Save the bar plot as a PNG file</span>
+
+<span class="c1"># Show the plot (optional in Jupyter, will still show the figure interactively)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>The largest bar corresponds to the contributing factor “Driver Inattention/Distraction”, which has the highest frequency. This suggests that driver distractions or inattention are the leading cause of accidents in the hotspot areas.</p>
+<p>Driver Inattention and Failure to Yield are critical factors. These could be the focus of traffic safety interventions (e.g., public awareness campaigns, better signage, or enforcement of traffic laws related to these issues).</p>
+<p>Cell phone use (even hands-free) and other lesser contributing factors like “Animal in Roadway” can still be considered for targeted traffic safety measures. For example, areas with high traffic and frequent distractions could benefit from more educational campaigns or technology such as advanced driver-assistance systems (ADAS).</p>
+</section>
+<section id="time-of-day-analysis">
+<h3>Time of Day Analysis<a class="headerlink" href="#time-of-day-analysis" title="Link to this heading">#</a></h3>
+<p>We’ll now examine how accidents are distributed across day and night in the hotspot neighborhoods, based on the time of day.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert &#39;CRASH_TIME&#39; to datetime</span>
+<span class="n">hotspot_accidents</span><span class="p">[</span><span class="s1">&#39;CRASH TIME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">hotspot_accidents</span><span class="p">[</span><span class="s1">&#39;CRASH TIME&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+<span class="c1"># Extract the hour of the accident</span>
+<span class="n">hotspot_accidents</span><span class="p">[</span><span class="s1">&#39;hour&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hotspot_accidents</span><span class="p">[</span><span class="s1">&#39;CRASH TIME&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">hour</span>
+
+<span class="c1"># Check if there are any rows with missing or invalid &#39;CRASH_TIME&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hotspot_accidents</span><span class="p">[</span><span class="n">hotspot_accidents</span><span class="p">[</span><span class="s1">&#39;CRASH TIME&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()])</span>
+
+<span class="c1"># Create a &#39;time_of_day&#39; column based on the hour (Day: 6AM-6PM, Night: 6PM-6AM)</span>
+<span class="n">hotspot_accidents</span><span class="p">[</span><span class="s1">&#39;time_of_day&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hotspot_accidents</span><span class="p">[</span><span class="s1">&#39;hour&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;Day&#39;</span> <span class="k">if</span> <span class="mi">6</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">18</span> <span class="k">else</span> <span class="s1">&#39;Night&#39;</span><span class="p">)</span>
+
+<span class="c1"># Group by time of day and count the accidents</span>
+<span class="n">time_of_day_accidents</span> <span class="o">=</span> <span class="n">hotspot_accidents</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;time_of_day&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+<span class="c1"># Display the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time_of_day_accidents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Empty GeoDataFrame
+Columns: [CRASH DATE, CRASH TIME, BOROUGH, ZIP CODE, LATITUDE, LONGITUDE, LOCATION, ON STREET NAME, CROSS STREET NAME, OFF STREET NAME, NUMBER OF PERSONS INJURED, NUMBER OF PERSONS KILLED, NUMBER OF PEDESTRIANS INJURED, NUMBER OF PEDESTRIANS KILLED, NUMBER OF CYCLIST INJURED, NUMBER OF CYCLIST KILLED, NUMBER OF MOTORIST INJURED, NUMBER OF MOTORIST KILLED, CONTRIBUTING FACTOR VEHICLE 1, CONTRIBUTING FACTOR VEHICLE 2, CONTRIBUTING FACTOR VEHICLE 3, CONTRIBUTING FACTOR VEHICLE 4, CONTRIBUTING FACTOR VEHICLE 5, COLLISION_ID, VEHICLE TYPE CODE 1, VEHICLE TYPE CODE 2, VEHICLE TYPE CODE 3, VEHICLE TYPE CODE 4, VEHICLE TYPE CODE 5, BoroCode, BoroName, CountyFIPS, NTA2020, NTAName, NTAAbbrev, NTAType, CDTA2020, CDTAName, Shape_Length, Shape_Area, the_geom, geometry, hour]
+Index: []
+
+[0 rows x 43 columns]
+time_of_day
+Day      5316
+Night    3630
+dtype: int64
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/wq/202j15cn72x_7mv_cy98qm300000gn/T/ipykernel_52016/4008757699.py:2: UserWarning:
+
+Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+
+/Users/yirange/computing/yg3102-del.github.io/.venv/lib/python3.13/site-packages/geopandas/geodataframe.py:1968: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+/Users/yirange/computing/yg3102-del.github.io/.venv/lib/python3.13/site-packages/geopandas/geodataframe.py:1968: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+/Users/yirange/computing/yg3102-del.github.io/.venv/lib/python3.13/site-packages/geopandas/geodataframe.py:1968: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the pie chart using Plotly</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">time_of_day_accidents</span><span class="p">,</span> 
+             <span class="n">names</span><span class="o">=</span><span class="n">time_of_day_accidents</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> 
+             <span class="n">values</span><span class="o">=</span><span class="n">time_of_day_accidents</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Accidents by Time of Day in Hotspot Areas&#39;</span><span class="p">)</span>
+
+<span class="n">fig_severity</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="s2">&quot;accidents_by_time_of_day_pie.png&quot;</span><span class="p">)</span>
+
+<span class="c1"># show the plot</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>Accidents occur more frequently during the daytime, with a higher proportion (close to 60%). This suggests that during the day, especially during peak traffic hours (such as rush hours), there are more accidents.</p>
+<p>Nighttime accidents, while lower in proportion (around 40%), still represent a significant portion of accidents, likely linked to factors such as poor visibility, fatigue driving, or impaired driving.</p>
+<p>Daytime accidents contribute more to overall severity in terms of both injuries and fatalities. This could be linked to higher traffic volumes and congestion during the day.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter accidents that occurred during the daytime (time_of_day == &#39;Day&#39;)</span>
+<span class="n">daytime_accidents</span> <span class="o">=</span> <span class="n">hotspot_accidents</span><span class="p">[</span><span class="n">hotspot_accidents</span><span class="p">[</span><span class="s1">&#39;time_of_day&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Day&#39;</span><span class="p">]</span>
+<span class="n">nighttime_accidents</span> <span class="o">=</span> <span class="n">hotspot_accidents</span><span class="p">[</span><span class="n">hotspot_accidents</span><span class="p">[</span><span class="s1">&#39;time_of_day&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Night&#39;</span><span class="p">]</span>
+
+<span class="c1"># Check severity of daytime accidents</span>
+<span class="n">daytime_severity</span> <span class="o">=</span> <span class="n">daytime_accidents</span><span class="p">[[</span>
+    <span class="s1">&#39;NUMBER OF PERSONS INJURED&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBER OF PERSONS KILLED&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NUMBER OF PEDESTRIANS INJURED&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBER OF PEDESTRIANS KILLED&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NUMBER OF CYCLIST INJURED&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBER OF CYCLIST KILLED&#39;</span>
+<span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Check severity of nighttime accidents</span>
+<span class="n">nighttime_severity</span> <span class="o">=</span> <span class="n">nighttime_accidents</span><span class="p">[[</span>
+    <span class="s1">&#39;NUMBER OF PERSONS INJURED&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBER OF PERSONS KILLED&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NUMBER OF PEDESTRIANS INJURED&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBER OF PEDESTRIANS KILLED&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NUMBER OF CYCLIST INJURED&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBER OF CYCLIST KILLED&#39;</span>
+<span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Display the total severity for both Day and Night</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Daytime Accident Severity:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">daytime_severity</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Nighttime Accident Severity:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nighttime_severity</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Daytime Accident Severity:
+NUMBER OF PERSONS INJURED        2997
+NUMBER OF PERSONS KILLED           10
+NUMBER OF PEDESTRIANS INJURED     643
+NUMBER OF PEDESTRIANS KILLED        5
+NUMBER OF CYCLIST INJURED         432
+NUMBER OF CYCLIST KILLED            2
+dtype: int64
+
+Nighttime Accident Severity:
+NUMBER OF PERSONS INJURED        2257
+NUMBER OF PERSONS KILLED           18
+NUMBER OF PEDESTRIANS INJURED     367
+NUMBER OF PEDESTRIANS KILLED       10
+NUMBER OF CYCLIST INJURED         267
+NUMBER OF CYCLIST KILLED            1
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Combine the data into a long format (for better compatibility with Plotly)</span>
+<span class="n">severity_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Accident Type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Persons Injured&#39;</span><span class="p">,</span> <span class="s1">&#39;Persons Killed&#39;</span><span class="p">,</span> <span class="s1">&#39;Pedestrians Injured&#39;</span><span class="p">,</span> <span class="s1">&#39;Pedestrians Killed&#39;</span><span class="p">,</span> <span class="s1">&#39;Cyclists Injured&#39;</span><span class="p">,</span> <span class="s1">&#39;Cyclists Killed&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Daytime&#39;</span><span class="p">:</span> <span class="n">daytime_severity</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s1">&#39;Nighttime&#39;</span><span class="p">:</span> <span class="n">nighttime_severity</span><span class="o">.</span><span class="n">values</span>
+<span class="p">})</span>
+
+<span class="n">severity_data_long</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">severity_data</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Accident Type&#39;</span><span class="p">],</span> <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Daytime&#39;</span><span class="p">,</span> <span class="s1">&#39;Nighttime&#39;</span><span class="p">],</span>
+                             <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Time of Day&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a stacked bar chart</span>
+<span class="n">fig_severity</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+    <span class="n">severity_data_long</span><span class="p">,</span> 
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Accident Type&#39;</span><span class="p">,</span> 
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Frequency&#39;</span><span class="p">,</span> 
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Time of Day&#39;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Accident Severity Comparison: Daytime vs Nighttime&#39;</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Accident Type&#39;</span><span class="p">:</span> <span class="s1">&#39;Type of Accident&#39;</span><span class="p">,</span> <span class="s1">&#39;Frequency&#39;</span><span class="p">:</span> <span class="s1">&#39;Severity (Total Count)&#39;</span><span class="p">,</span> <span class="s1">&#39;Time of Day&#39;</span><span class="p">:</span> <span class="s1">&#39;Time of Day&#39;</span><span class="p">},</span>
+    <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Daytime&#39;</span><span class="p">:</span> <span class="s2">&quot;#DE8729&quot;</span><span class="p">,</span> <span class="s1">&#39;Nighttime&#39;</span><span class="p">:</span> <span class="s2">&quot;#2B8FD6&quot;</span><span class="p">},</span>  <span class="c1"># Softer colors</span>
+    <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;stack&#39;</span>  <span class="c1"># Set the bar mode to &quot;stack&quot; to make it stacked</span>
+<span class="p">)</span>
+
+<span class="c1"># Update layout for better appearance</span>
+<span class="n">fig_severity</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;Type of Accident&#39;</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;Total Severity (Count)&#39;</span><span class="p">,</span>
+    <span class="n">xaxis_tickangle</span><span class="o">=-</span><span class="mi">45</span>
+<span class="p">)</span>
+
+
+<span class="c1"># Show the plot</span>
+<span class="n">fig_severity</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>It seems that daytime accidents contribute more to overall severity (in terms of both injuries and fatalities) than nighttime accidents. This might be due to higher traffic volume during the day, leading to more accidents, or other factors like driver inattention or congestion.</p>
+<p>A significant portion of accidents occurs during the day (around 60%), but nighttime accidents are also prevalent, likely due to factors like impaired driving, fatigue, or poor visibility.</p>
+<p>Findings:</p>
+<p>Initially, we expected that nighttime accidents might be more severe, given the potential risks associated with poor visibility and impaired driving. However, the analysis showed that daytime accidents actually contribute more significantly to overall severity. This finding may challenge our initial assumption that nighttime accidents are inherently more dangerous.</p>
+<p>The correlation between high accident rates and high-density areas is not surprising, but it is worth noting that areas with high foot traffic and business activity are much more accident-prone. This reinforces the need for urban planning and infrastructure improvements in high-traffic areas.</p>
+<p>Reflection:</p>
+<p>This analysis serves as a foundation for future investigations into urban safety and crime prevention, suggesting that both traffic accidents and social factors can be interwoven in understanding how urban environments can be improved for residents’ safety. There is much more to explore, and this project has shown me how data can inform both immediate and long-term improvements in city planning and public safety.</p>
+<p>This project allowed me to explore the intersection of traffic accidents, neighborhood density, and socioeconomic factors in New York City. The findings align with the general expectation that busy areas have higher accident rates, but the severity of daytime accidents was an interesting observation that adds depth to our understanding. The impact of driver behavior, particularly distractions and failure to yield, which suggests that education and law enforcement on safe driving could be key areas for improving traffic safety in hotspots.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="project2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Project II: Cardiovascular Mortality and Aging Population</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-data">Loading the Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geodataframe-for-neighborhood-tabulation-areas-nta">GeoDataFrame for Neighborhood Tabulation Areas (NTA)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geodataframe-for-traffic-accidents">GeoDataFrame for Traffic Accidents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-join-to-count-accidents-by-neighborhood">Spatial Join to Count Accidents by Neighborhood</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-accident-counts-by-neighborhood">Visualizing Accident Counts by Neighborhood</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-the-top-accident-hotspots">Analyzing the Top Accident Hotspots</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-factors-to-accidents">Contributing Factors to Accidents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accident-severity-analysis">Accident Severity Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-of-day-analysis">Time of Day Analysis</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yiran
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
